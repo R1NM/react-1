@@ -86,7 +86,7 @@ class App extends Component{
     })
   }
 
-  getReadContent(){
+  getSelectedContent(){
     for (let idx = 0; idx < this.state.contents.length; idx++) {
       var data=this.state.contents[idx];
       if(data.id===this.state.selectedContentId){
@@ -102,12 +102,12 @@ class App extends Component{
       _desc=this.state.welcome.desc;
       _article=<ReadContent title={_title} desc={_desc}/>
     } else if(this.state.mode==='read'){
-      var _content=this.getReadContent();
+      var _content=this.getSelectedContent();
       _article=<ReadContent title={_content.title} desc={_content.desc}/>
     } else if(this.state.mode==='create'){
       _article=<CreateContent onSubmit={this.addNewContent}/>
     } else if(this.state.mode==='update'){
-      var _content=this.getReadContent();
+      var _content=this.getSelectedContent();
       _article=<UpdateContent data={_content} onSubmit={this.updateContent}/>
     }
 

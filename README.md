@@ -1,4 +1,4 @@
-# React-1
+# React & Redux
 
 # Day1: Component & CRUD
 ## 1. class 형식의 컴포넌트 선언
@@ -71,3 +71,73 @@ this.setState({
 - true를 반환시에만 render함수 작동
 - 불필요한 랜더링을 막는 역할
 - 인자 newProps와 newState를 통해 새로 바뀐 props와 state에 접근 가능
+
+# Day2: Redux
+
+
+## 1. Redux
+
+### 1) 복잡성 완화 → 예측가능
+
+- Single Source of Truth: 데이터 중앙집중 관리
+- dispatcher와 reducer로만 state 변경
+- getstate를 통하여 값 접근
+- state 변경시 자동으로 전파
+- Undo, Redo, module reload
+
+## 2. 구조
+
+- Store: State가 저장될 저장소``
+- State: 저장될 데이터(변수)
+- Reducer: state 작성 함수
+- 함수들
+    1. dispatch: 전달받은 action을 실행 ⇒ reducer를 호출하여 state 값 변경 → subscribe 호출
+    2. subscribe: state값이 변화할 때마다 랜더링
+    3. getState: state값 가져오기
+- action: type 지정 + 변경할 state 값
+
+```jsx
+//reducer 작성
+function reducer(oldState, action){
+	//생성하기
+	if(action.type==='create'){ 
+		var newContents=oldState.contents.concat();
+		var newMaxId=oldState.maxId+1;
+		newContents.push({id: newMaxId, title: action.payload.tittle, desc: action.payload.desc})
+		
+		//새로운 state 값 리턴
+		return Object.assign({},state,{
+			contents: newContents,
+			maxId:newMaxId,
+			mode:'read',
+			selectedId: newMaxId
+		});
+	}
+...
+}
+
+//store 생성
+var store = Redux.createStore(reducer)
+
+function render(){
+	//state 값 가져오기
+	var state = store.getState()
+	
+	//web rendering...
+}
+
+//subscribe에 render함수 등록
+store.subscribe(render);
+
+//state 값을 새로 생성할 때
+function onSubmit(){
+	...
+	var action = {
+		type: 'create',
+		payload:{title: title, desc: desc}
+	}
+	store.dispatch(action)
+}
+
+```
+

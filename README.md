@@ -141,3 +141,70 @@ function onSubmit(){
 
 ```
 
+# Day3: React+Redux
+
+## 1. React에 Redux 연동하기
+
+### 1) props와 state에 의존하는 React의 복잡성 완화
+
+- 계층형식으로 props를 전달하는 고전적 React 방식에서 중앙의 store에서 필요한 state를 관리하는 구조
+
+### 2) react-redux 사용
+
+```jsx
+npm install redux
+```
+
+### 3) Redux 의존성 제거
+
+- Redux의 store에 값을 의존하면 재사용성이 떨어지는 문제
+- Wrapping으로 해결
+    - Container Component와 Presentational Component로 분리
+        
+        ⇒ Container에서 store와 연결, Presentational에서는 그 값을 props로 전달받아 사용한다
+        
+    
+    >Container Component
+    
+    ```jsx
+    import React, { Component } from 'react'
+    import DisplayNumber from '../components/DisplayNumber'
+    import store from '../store'
+    
+    export default class  extends Component {
+        state={
+            number:store.getState().number
+        }
+    
+        constructor(props){
+            super(props);
+            store.subscribe(()=>{
+                this.setState({number: store.getState().number})
+            })
+        }
+    
+        render() {
+            return (
+            <DisplayNumber number={this.state.number}/>
+            )
+        }
+    }
+    ```
+    
+    >Presentational Component
+    
+    ```jsx
+    import React, { Component } from 'react'
+    
+    export default class DisplayNumber extends Component {
+        render() {
+            return (
+                <div>
+                    <h1>DISPLAY NUMBER</h1>
+                    <input type="text" value={this.props.number} readOnly/>
+                </div>
+            )
+        }
+    }
+    ```
+    

@@ -96,18 +96,18 @@ class App extends Component{
   }
 
   getContent(){
-    var _title,_desc,_article=null;
+    var _title,_desc,_article=null,_content={};
     if(this.state.mode==='welcome'){
       _title=this.state.welcome.title;
       _desc=this.state.welcome.desc;
       _article=<ReadContent title={_title} desc={_desc}/>
     } else if(this.state.mode==='read'){
-      var _content=this.getSelectedContent();
+      _content=this.getSelectedContent();
       _article=<ReadContent title={_content.title} desc={_content.desc}/>
     } else if(this.state.mode==='create'){
       _article=<CreateContent onSubmit={this.addNewContent}/>
     } else if(this.state.mode==='update'){
-      var _content=this.getSelectedContent();
+      _content=this.getSelectedContent();
       _article=<UpdateContent data={_content} onSubmit={this.updateContent}/>
     }
 

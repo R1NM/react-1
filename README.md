@@ -208,3 +208,74 @@ npm install redux
     }
     ```
     
+# Day4: React-Redux
+
+## 1. 기존 React+Redux의 단점
+
+- Container 분리로 더욱 복잡해진 구조
+- dispatch, subscribe 등 정의해야할 함수가 많음
+
+## 2. React-Redux 패키지 사용
+
+```jsx
+npm install react-redux
+```
+
+- index.js의 <App/>을 react-redux에서 제공하는 provider로 감싸 App 하위의 모든 컴포넌트에서 store를 사용할 수 있다.
+    
+    ```jsx
+    import { Provider } from 'react-redux';
+    import store from './store';
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(
+      <React.StrictMode>
+        <Provider store={store}>
+        <App />
+        </Provider>
+      </React.StrictMode>
+    );
+    ```
+    
+
+## 3. connect()
+
+```jsx
+import DisplayNumber from '../components/DisplayNumber'
+
+import {connect} from 'react-redux';
+export default connect(mapStateToProps,mapDispatchToProps)(AddNumber);
+```
+
+- wrapping 하려는 컴포넌트를 인자로 전달
+- container를 자동으로 생성
+- props 또한 하위 컴포넌트로 자동으로 전달된다.
+
+### 1) mapStateToProps
+
+- Redux state로 저장된 값을 react 컴포넌트의 props로 전달
+- store의 state 값이 바뀔 때마다 호출됨
+
+```jsx
+const mapStateToProps=(state)=>{
+    return{
+        number: state.number
+    }
+}
+```
+
+### 2) mapDispatchToProps
+
+- Redux의 dispatch를 react 컴포넌트의 props로 전달
+
+```jsx
+const mapDispatchToProps=(dispatch)=>{
+    const onPlusClick=(_size)=>{
+        dispatch({type:"INCREMENT", size: _size})
+    }
+    return {
+        onClick:onPlusClick
+    }
+}
+```
+
+ㅋ
